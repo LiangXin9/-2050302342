@@ -1,0 +1,955 @@
+import pandas as pd
+data_world = pd.read_csv('https://labfile.oss.aliyuncs.com/courses/2791/data_world.csv')
+data_world.head(5)
+国家名称	确诊人数	治愈人数	死亡人数
+0	法国	27626578	368023	144130
+1	德国	23376879	4328400	132929
+2	韩国	16212751	336548	20889
+3	英国	21819851	6491069	171560
+4	西班牙	11662214	150376	103266
+data_economy = pd.read_csv(
+    "https://labfile.oss.aliyuncs.com/courses/2791/gpd_2016_2020.csv", index_col=0)
+time_index = pd.date_range(start='2016', periods=18, freq='Q')
+data_economy.index = time_index
+data_economy
+国内生产总值	第一产业增加值	第二产业增加值	第三产业增加值	农林牧渔业增加值	工业增加值	制造业增加值	建筑业增加值	批发和零售业增加值	交通运输、仓储和邮政业增加值	住宿和餐饮业增加值	金融业增加值	房地产业增加值	信息传输、软件和信息技术服务业增加值	租赁和商务服务业增加值	其他行业增加值
+2016-03-31	162410.0	8312.7	61106.8	92990.5	8665.5	53666.4	45784.0	7763.0	16847.5	7180.5	3181.6	15340.4	11283.0	5128.8	4985.3	28368.1
+2016-06-30	181408.2	12555.9	73416.5	95435.8	13045.5	60839.2	52378.3	12943.8	17679.8	8295.0	3112.3	14811.7	12209.7	5130.7	5075.1	28265.4
+2016-09-30	191010.6	17542.4	75400.5	98067.8	18162.2	61902.5	52468.3	13870.6	18513.0	8591.6	3473.2	14945.4	12615.3	4662.3	5452.4	28822.1
+2016-12-31	211566.2	21728.2	85504.1	104334.0	22577.8	68998.4	58878.4	16921.5	20684.1	8961.6	3840.7	14866.4	13861.4	5202.3	6015.8	29636.1
+2017-03-31	181867.7	8205.9	69315.5	104346.3	8595.8	60909.3	51419.7	8725.3	18608.9	8094.5	3536.5	16758.8	13047.0	5915.2	5811.9	31864.3
+2017-06-30	201950.3	12644.9	82323.0	106982.4	13204.2	68099.8	58172.1	14574.4	19473.6	9397.7	3440.9	15856.3	14059.0	5977.9	5868.4	31998.1
+2017-09-30	212789.3	18255.8	84574.1	109959.5	18944.2	69327.2	58632.6	15590.1	20342.9	9688.7	3838.5	16290.4	14054.9	5539.8	6464.6	32708.0
+2017-12-31	235428.7	22992.9	95368.0	117067.8	23915.8	76782.9	65652.1	19015.8	22731.1	9940.9	4240.1	15938.8	15925.1	6376.0	7128.4	33433.7
+2018-03-31	202035.7	8575.7	76598.2	116861.8	9005.8	66905.6	56631.9	10073.8	20485.5	8806.5	3887.8	18050.6	14863.5	7212.2	6879.5	35864.9
+2018-06-30	223962.2	13003.8	91100.6	119857.8	13662.2	75122.1	64294.9	16404.3	21374.2	10174.9	3779.6	17401.0	16176.1	7309.6	6885.3	35673.1
+2018-09-30	234474.3	18226.9	93112.5	123134.9	18961.8	76239.6	64348.2	17294.5	22334.1	10582.3	4212.6	17780.6	15914.0	6690.9	7533.3	36930.6
+2018-12-31	258808.9	24938.7	104023.9	129846.2	25929.0	82822.1	70662.1	21720.4	24710.0	10773.5	4640.6	17378.1	17669.5	7520.8	8170.4	37474.6
+2019-03-31	218062.8	8769.4	81806.5	127486.9	9249.4	71064.5	60357.1	11143.1	21959.2	9386.6	4234.9	19650.1	15979.2	8424.8	7665.1	39306.0
+2019-06-30	242573.8	14437.6	97315.6	130820.6	15108.7	79820.7	68041.8	17954.2	23097.0	10861.3	4123.0	19064.9	17484.4	8395.6	7596.7	39067.3
+2019-09-30	252208.7	19798.0	97790.4	134620.4	20629.0	79501.8	66823.8	18734.6	23993.6	11310.2	4610.5	19388.3	17369.0	7528.1	8409.1	40734.5
+2019-12-31	278019.7	27461.6	109252.8	141305.2	28579.9	86721.6	73952.4	23072.4	26795.9	11244.0	5071.2	18973.8	18798.9	8341.3	9262.5	41158.2
+2020-03-31	206504.3	10186.2	73638.0	122680.1	10708.4	64642.0	53852.0	9377.8	18749.6	7865.1	2820.9	21346.8	15268.3	8928.0	7137.9	39659.6
+2020-06-30	250110.1	15866.8	99120.9	135122.3	16596.4	80402.4	69258.8	19156.8	23696.1	10650.0	3481.3	20954.7	18593.6	9573.0	7174.4	39831.4
+data_area = pd.read_csv('https://labfile.oss.aliyuncs.com/courses/2791/DXYArea.csv')
+data_news = pd.read_csv('https://labfile.oss.aliyuncs.com/courses/2791/DXYNews.csv')
+data_area = data_area.loc[data_area['countryName'] == data_area['provinceName']]
+data_area_times = data_area[['countryName', 'province_confirmedCount',
+                             'province_curedCount', 'province_deadCount', 'updateTime']]
+
+time = pd.DatetimeIndex(data_area_times['updateTime'])  # 根据疫情的更新时间来生成时间序列
+data_area_times.index = time  # 生成索引
+data_area_times = data_area_times.drop('updateTime', axis=1)
+data_area_times.head(5)
+
+data_area_times.isnull().any()  # 查询是否有空值
+countryName                False
+province_confirmedCount    False
+province_curedCount        False
+province_deadCount         False
+dtype: bool
+data_news_times = data_news[['pubDate', 'title', 'summary']]
+time = pd.DatetimeIndex(data_news_times['pubDate'])
+data_news_times.index = time  # 生成新闻数据的时间索引
+data_news_times = data_news_times.drop('pubDate', axis=1)
+data_news_times.head(5)
+title	summary
+pubDate		
+2020-07-17 05:40:08	美国新增71434例新冠肺炎确诊病例，累计确诊超354万例	据美国约翰斯·霍普金斯大学统计数据显示，截至美东时间7月16日17:33时（北京时间17日0...
+2020-07-17 06:06:49	巴西新冠肺炎确诊病例破201万，近六成大城市确诊病例加速增长	截至当地时间7月16日18时，巴西新增新冠肺炎确诊病例45403例，累计确诊2012151例...
+2020-07-16 22:31:00	阿塞拜疆新增493例新冠肺炎确诊病例 累计确诊26165例	当地时间7月16日，阿塞拜疆国家疫情防控指挥部发布消息，在过去24小时内，阿塞拜疆新增新冠肺...
+2020-07-16 22:29:48	​科威特新增791例新冠肺炎确诊病例 累计确诊57668例	科威特卫生部当地时间16日下午发布通告，确认过去24小时境内新增791例新冠肺炎确诊病例，同...
+2020-07-16 21:26:54	罗马尼亚新增777例新冠肺炎确诊病例 累计确诊35003例	据罗马尼亚政府7月16日公布的数据，过去24小时对19097人进行新冠病毒检测，确诊777例...
+print(data_world.isnull().any())
+print(data_economy.isnull().any())
+print(data_area_times.isnull().any())
+print(data_news_times.isnull().any())  # 确认各个数据集是否空集
+国家名称    False
+确诊人数    False
+治愈人数    False
+死亡人数    False
+dtype: bool
+国内生产总值                False
+第一产业增加值               False
+第二产业增加值               False
+第三产业增加值               False
+农林牧渔业增加值              False
+工业增加值                 False
+制造业增加值                False
+建筑业增加值                False
+批发和零售业增加值             False
+交通运输、仓储和邮政业增加值        False
+住宿和餐饮业增加值             False
+金融业增加值                False
+房地产业增加值               False
+信息传输、软件和信息技术服务业增加值    False
+租赁和商务服务业增加值           False
+其他行业增加值               False
+dtype: bool
+countryName                False
+province_confirmedCount    False
+province_curedCount        False
+province_deadCount         False
+dtype: bool
+title      False
+summary    False
+dtype: bool
+!wget -nc "http://labfile.oss.aliyuncs.com/courses/2791/NotoSansCJK.otf"
+File 'NotoSansCJK.otf' already there; not retrieving.
+
+import matplotlib.pyplot as plt
+import matplotlib
+import os
+
+%matplotlib inline
+# 指定中文字体
+fpath = os.path.join("./NotoSansCJK.otf")
+myfont = matplotlib.font_manager.FontProperties(fname=fpath)
+# 绘图
+data_world = data_world.sort_values(by='确诊人数', ascending=False)  # 按确诊人数进行排序
+data_world_set = data_world[['确诊人数', '治愈人数', '死亡人数']]
+data_world_set.index = data_world['国家名称']
+data_world_set.head(10).plot(kind='bar', figsize=(15, 10))  # 对排序前十的国家数据进行绘图
+plt.xlabel('国家名称', fontproperties=myfont)
+plt.xticks(fontproperties=myfont)
+plt.legend(fontsize=30, prop=myfont)  # 设置图例
+<matplotlib.legend.Legend at 0x210725ce880>
+
+from pyecharts.charts import Map
+from pyecharts import options as opts
+from pyecharts.globals import CurrentConfig, NotebookType
+
+CurrentConfig.NOTEBOOK_TYPE = NotebookType.JUPYTER_NOTEBOOK
+name_map = {  # 世界各国数据的中英文对比
+    'Singapore Rep.': '新加坡',
+    'Dominican Rep.': '多米尼加',
+    'Palestine': '巴勒斯坦',
+    'Bahamas': '巴哈马',
+    'Timor-Leste': '东帝汶',
+    'Afghanistan': '阿富汗',
+    'Guinea-Bissau': '几内亚比绍',
+    "Côte d'Ivoire": '科特迪瓦',
+    'Siachen Glacier': '锡亚琴冰川',
+    "Br. Indian Ocean Ter.": '英属印度洋领土',
+    'Angola': '安哥拉',
+    'Albania': '阿尔巴尼亚',
+    'United Arab Emirates': '阿联酋',
+    'Argentina': '阿根廷',
+    'Armenia': '亚美尼亚',
+    'French Southern and Antarctic Lands': '法属南半球和南极领地',
+    'Australia': '澳大利亚',
+    'Austria': '奥地利',
+    'Azerbaijan': '阿塞拜疆',
+    'Burundi': '布隆迪',
+    'Belgium': '比利时',
+    'Benin': '贝宁',
+    'Burkina Faso': '布基纳法索',
+    'Bangladesh': '孟加拉国',
+    'Bulgaria': '保加利亚',
+    'The Bahamas': '巴哈马',
+    'Bosnia and Herz.': '波斯尼亚和黑塞哥维那',
+    'Belarus': '白俄罗斯',
+    'Belize': '伯利兹',
+    'Bermuda': '百慕大',
+    'Bolivia': '玻利维亚',
+    'Brazil': '巴西',
+    'Brunei': '文莱',
+    'Bhutan': '不丹',
+    'Botswana': '博茨瓦纳',
+    'Central African Rep.': '中非',
+    'Canada': '加拿大',
+    'Switzerland': '瑞士',
+    'Chile': '智利',
+    'China': '中国',
+    'Ivory Coast': '象牙海岸',
+    'Cameroon': '喀麦隆',
+    'Dem. Rep. Congo': '刚果民主共和国',
+    'Congo': '刚果',
+    'Colombia': '哥伦比亚',
+    'Costa Rica': '哥斯达黎加',
+    'Cuba': '古巴',
+    'N. Cyprus': '北塞浦路斯',
+    'Cyprus': '塞浦路斯',
+    'Czech Rep.': '捷克',
+    'Germany': '德国',
+    'Djibouti': '吉布提',
+    'Denmark': '丹麦',
+    'Algeria': '阿尔及利亚',
+    'Ecuador': '厄瓜多尔',
+    'Egypt': '埃及',
+    'Eritrea': '厄立特里亚',
+    'Spain': '西班牙',
+    'Estonia': '爱沙尼亚',
+    'Ethiopia': '埃塞俄比亚',
+    'Finland': '芬兰',
+    'Fiji': '斐',
+    'Falkland Islands': '福克兰群岛',
+    'France': '法国',
+    'Gabon': '加蓬',
+    'United Kingdom': '英国',
+    'Georgia': '格鲁吉亚',
+    'Ghana': '加纳',
+    'Guinea': '几内亚',
+    'Gambia': '冈比亚',
+    'Guinea Bissau': '几内亚比绍',
+    'Eq. Guinea': '赤道几内亚',
+    'Greece': '希腊',
+    'Greenland': '格陵兰',
+    'Guatemala': '危地马拉',
+    'French Guiana': '法属圭亚那',
+    'Guyana': '圭亚那',
+    'Honduras': '洪都拉斯',
+    'Croatia': '克罗地亚',
+    'Haiti': '海地',
+    'Hungary': '匈牙利',
+    'Indonesia': '印度尼西亚',
+    'India': '印度',
+    'Ireland': '爱尔兰',
+    'Iran': '伊朗',
+    'Iraq': '伊拉克',
+    'Iceland': '冰岛',
+    'Israel': '以色列',
+    'Italy': '意大利',
+    'Jamaica': '牙买加',
+    'Jordan': '约旦',
+    'Japan': '日本',
+    'Kazakhstan': '哈萨克斯坦',
+    'Kenya': '肯尼亚',
+    'Kyrgyzstan': '吉尔吉斯斯坦',
+    'Cambodia': '柬埔寨',
+    'Korea': '韩国',
+    'Kosovo': '科索沃',
+    'Kuwait': '科威特',
+    'Lao PDR': '老挝',
+    'Lebanon': '黎巴嫩',
+    'Liberia': '利比里亚',
+    'Libya': '利比亚',
+    'Sri Lanka': '斯里兰卡',
+    'Lesotho': '莱索托',
+    'Lithuania': '立陶宛',
+    'Luxembourg': '卢森堡',
+    'Latvia': '拉脱维亚',
+    'Morocco': '摩洛哥',
+    'Moldova': '摩尔多瓦',
+    'Madagascar': '马达加斯加',
+    'Mexico': '墨西哥',
+    'Macedonia': '马其顿',
+    'Mali': '马里',
+    'Myanmar': '缅甸',
+    'Montenegro': '黑山',
+    'Mongolia': '蒙古',
+    'Mozambique': '莫桑比克',
+    'Mauritania': '毛里塔尼亚',
+    'Malawi': '马拉维',
+    'Malaysia': '马来西亚',
+    'Namibia': '纳米比亚',
+    'New Caledonia': '新喀里多尼亚',
+    'Niger': '尼日尔',
+    'Nigeria': '尼日利亚',
+    'Nicaragua': '尼加拉瓜',
+    'Netherlands': '荷兰',
+    'Norway': '挪威',
+    'Nepal': '尼泊尔',
+    'New Zealand': '新西兰',
+    'Oman': '阿曼',
+    'Pakistan': '巴基斯坦',
+    'Panama': '巴拿马',
+    'Peru': '秘鲁',
+    'Philippines': '菲律宾',
+    'Papua New Guinea': '巴布亚新几内亚',
+    'Poland': '波兰',
+    'Puerto Rico': '波多黎各',
+    'Dem. Rep. Korea': '朝鲜',
+    'Portugal': '葡萄牙',
+    'Paraguay': '巴拉圭',
+    'Qatar': '卡塔尔',
+    'Romania': '罗马尼亚',
+    'Russia': '俄罗斯',
+    'Rwanda': '卢旺达',
+    'W. Sahara': '西撒哈拉',
+    'Saudi Arabia': '沙特阿拉伯',
+    'Sudan': '苏丹',
+    'S. Sudan': '南苏丹',
+    'Senegal': '塞内加尔',
+    'Solomon Is.': '所罗门群岛',
+    'Sierra Leone': '塞拉利昂',
+    'El Salvador': '萨尔瓦多',
+    'Somaliland': '索马里兰',
+    'Somalia': '索马里',
+    'Serbia': '塞尔维亚',
+    'Suriname': '苏里南',
+    'Slovakia': '斯洛伐克',
+    'Slovenia': '斯洛文尼亚',
+    'Sweden': '瑞典',
+    'Swaziland': '斯威士兰',
+    'Syria': '叙利亚',
+    'Chad': '乍得',
+    'Togo': '多哥',
+    'Thailand': '泰国',
+    'Tajikistan': '塔吉克斯坦',
+    'Turkmenistan': '土库曼斯坦',
+    'East Timor': '东帝汶',
+    'Trinidad and Tobago': '特里尼达和多巴哥',
+    'Tunisia': '突尼斯',
+    'Turkey': '土耳其',
+    'Tanzania': '坦桑尼亚',
+    'Uganda': '乌干达',
+    'Ukraine': '乌克兰',
+    'Uruguay': '乌拉圭',
+    'United States': '美国',
+    'Uzbekistan': '乌兹别克斯坦',
+    'Venezuela': '委内瑞拉',
+    'Vietnam': '越南',
+    'Vanuatu': '瓦努阿图',
+    'West Bank': '西岸',
+    'Yemen': '也门',
+    'South Africa': '南非',
+    'Zambia': '赞比亚',
+    'Zimbabwe': '津巴布韦',
+    'Comoros': '科摩罗'
+}
+
+map = Map(init_opts=opts.InitOpts(width="1900px", height="900px",
+                                  bg_color="#ADD8E6", page_title="全球疫情确诊人数"))  # 获得世界地图数据
+map.add("确诊人数", [list(z) for z in zip(data_world['国家名称'], data_world['确诊人数'])],
+        is_map_symbol_show=False,  # 添加确诊人数信息
+        # 通过name_map来转化国家的中英文名称方便显示
+        maptype="world", label_opts=opts.LabelOpts(is_show=False), name_map=name_map,
+        itemstyle_opts=opts.ItemStyleOpts(color="rgb(49,60,72)"),
+        ).set_global_opts(
+    visualmap_opts=opts.VisualMapOpts(max_=1000000),  # 对视觉映射进行配置
+)
+map.render_notebook()  # 在notebook中显示
+country = data_area_times.sort_values('province_confirmedCount', ascending=False).drop_duplicates(
+    subset='countryName', keep='first').head(6)['countryName']
+country = list(country)  # 对于同一天采集的多个数据，只保留第一次出现的数据也就是最后一次更新的数据
+country
+['美国', '巴西', '印度', '俄罗斯', '秘鲁', '智利']
+data_America = data_area_times[data_area_times['countryName'] == '美国']
+data_Brazil = data_area_times[data_area_times['countryName'] == '巴西']
+data_India = data_area_times[data_area_times['countryName'] == '印度']
+data_Russia = data_area_times[data_area_times['countryName'] == '俄罗斯']
+data_Peru = data_area_times[data_area_times['countryName'] == '秘鲁']
+data_Chile = data_area_times[data_area_times['countryName'] == '智利']
+
+timeindex = data_area_times.index
+timeindex = timeindex.floor('D')  # 对于日期索引，只保留具体到哪一天
+data_area_times.index = timeindex
+
+timeseries = pd.DataFrame(data_America.index)
+timeseries.index = data_America.index
+data_America = pd.concat([timeseries, data_America], axis=1)
+data_America.drop_duplicates(
+    subset='updateTime', keep='first', inplace=True)  # 对美国数据进行处理，获得美国确诊人数的时间序列
+data_America.drop('updateTime', axis=1, inplace=True)
+
+timeseries = pd.DataFrame(data_Brazil.index)
+timeseries.index = data_Brazil.index
+data_Brazil = pd.concat([timeseries, data_Brazil], axis=1)
+# 对巴西数据进行处理，获得巴西确诊人数的时间序列
+data_Brazil.drop_duplicates(subset='updateTime', keep='first', inplace=True)
+data_Brazil.drop('updateTime', axis=1, inplace=True)
+
+timeseries = pd.DataFrame(data_India.index)
+timeseries.index = data_India.index
+data_India = pd.concat([timeseries, data_India], axis=1)
+# 对印度数据进行处理，获得印度确诊人数的时间序列
+data_India.drop_duplicates(subset='updateTime', keep='first', inplace=True)
+data_India.drop('updateTime', axis=1, inplace=True)
+
+timeseries = pd.DataFrame(data_Russia.index)
+timeseries.index = data_Russia.index
+data_Russia = pd.concat([timeseries, data_Russia], axis=1)
+# 对俄罗斯数据进行处理，获得俄罗斯确诊人数的时间序列
+data_Russia.drop_duplicates(subset='updateTime', keep='first', inplace=True)
+data_Russia.drop('updateTime', axis=1, inplace=True)
+
+timeseries = pd.DataFrame(data_Peru.index)
+timeseries.index = data_Peru.index
+data_Peru = pd.concat([timeseries, data_Peru], axis=1)
+# 对秘鲁数据进行处理，获得秘鲁确诊人数的时间序列
+data_Peru.drop_duplicates(subset='updateTime', keep='first', inplace=True)
+data_Peru.drop('updateTime', axis=1, inplace=True)
+
+timeseries = pd.DataFrame(data_Chile.index)
+timeseries.index = data_Chile.index
+data_Chile = pd.concat([timeseries, data_Chile], axis=1)
+# 对智利数据进行处理，获得智利确诊人数的时间序列
+data_Chile.drop_duplicates(subset='updateTime', keep='first', inplace=True)
+data_Chile.drop('updateTime', axis=1, inplace=True)
+
+plt.title("世界疫情排行分布", fontproperties=myfont)
+plt.plot(data_America['province_confirmedCount'])
+plt.plot(data_Brazil['province_confirmedCount'])
+plt.plot(data_India['province_confirmedCount'])
+plt.plot(data_Russia['province_confirmedCount'])
+plt.plot(data_Peru['province_confirmedCount'])
+plt.plot(data_Chile['province_confirmedCount'])
+plt.legend(country, prop=myfont)
+<matplotlib.legend.Legend at 0x21075bcb9a0>
+
+pip install jieba -i https://pypi.douban.com/simple/
+Looking in indexes: https://pypi.douban.com/simple/
+Note: you may need to restart the kernel to use updated packages.
+Collecting jieba
+  Downloading https://pypi.doubanio.com/packages/c6/cb/18eeb235f833b726522d7ebed54f2278ce28ba9438e3135ab0278d9792a2/jieba-0.42.1.tar.gz (19.2 MB)
+Building wheels for collected packages: jieba
+  Building wheel for jieba (setup.py): started
+  Building wheel for jieba (setup.py): finished with status 'done'
+  Created wheel for jieba: filename=jieba-0.42.1-py3-none-any.whl size=19314476 sha256=896fd77ee7cab7540efeba7d8649f61e261217c3bcc0238a14e4b4a1972989c1
+  Stored in directory: c:\users\李嘉浩\appdata\local\pip\cache\wheels\9e\65\69\ce2c5e7cec5be4921c4a70a70f6715ba88f762f5f92c614953
+Successfully built jieba
+Installing collected packages: jieba
+Successfully installed jieba-0.42.1
+pip install wordcloud-1.8.1-cp39-cp39-win_amd64.whl
+Processing c:\users\李嘉浩\wordcloud-1.8.1-cp39-cp39-win_amd64.whl
+Requirement already satisfied: pillow in c:\programdata\anaconda3\lib\site-packages (from wordcloud==1.8.1) (8.4.0)
+Requirement already satisfied: matplotlib in c:\programdata\anaconda3\lib\site-packages (from wordcloud==1.8.1) (3.4.3)
+Requirement already satisfied: numpy>=1.6.1 in c:\programdata\anaconda3\lib\site-packages (from wordcloud==1.8.1) (1.20.3)
+Requirement already satisfied: pyparsing>=2.2.1 in c:\programdata\anaconda3\lib\site-packages (from matplotlib->wordcloud==1.8.1) (3.0.4)
+Requirement already satisfied: kiwisolver>=1.0.1 in c:\programdata\anaconda3\lib\site-packages (from matplotlib->wordcloud==1.8.1) (1.3.1)
+Requirement already satisfied: cycler>=0.10 in c:\programdata\anaconda3\lib\site-packages (from matplotlib->wordcloud==1.8.1) (0.10.0)
+Requirement already satisfied: python-dateutil>=2.7 in c:\programdata\anaconda3\lib\site-packages (from matplotlib->wordcloud==1.8.1) (2.8.2)
+Requirement already satisfied: six in c:\programdata\anaconda3\lib\site-packages (from cycler>=0.10->matplotlib->wordcloud==1.8.1) (1.16.0)
+Installing collected packages: wordcloud
+Successfully installed wordcloud-1.8.1
+Note: you may need to restart the kernel to use updated packages.
+import jieba
+import re
+from wordcloud import WordCloud
+
+def word_cut(x): return jieba.lcut(x)  # 进行结巴分词
+
+news = []
+reg = "[^\u4e00-\u9fa5]"
+for i in data_news['title']:
+    if re.sub(reg, '', i) != '':  # 去掉英文数字和标点等无关字符，仅保留中文词组
+        news.append(re.sub(reg, '', i))  # 用news列表汇总处理后的新闻标题
+
+words = []
+counts = {}
+for i in news:
+    words.append(word_cut(i))  # 对所有新闻进行分词
+for word in words:
+    for a_word in word:
+        if len(a_word) == 1:
+            continue
+        else:
+            counts[a_word] = counts.get(a_word, 0)+1  # 用字典存储对应分词的词频
+words_sort = list(counts.items())
+words_sort.sort(key=lambda x: x[1], reverse=True)
+
+newcloud = WordCloud(font_path="./NotoSansCJK.otf",
+                     background_color="white", width=600, height=300, max_words=50)  # 生成词云
+newcloud.generate_from_frequencies(counts)
+image = newcloud.to_image()  # 转换成图片
+image
+Building prefix dict from the default dictionary ...
+Dumping model to file cache C:\Users\李嘉浩\AppData\Local\Temp\jieba.cache
+Loading model cost 0.737 seconds.
+Prefix dict has been built successfully.
+
+pip install -i https://pypi.tuna.tsinghua.edu.cn/simple gensim
+Looking in indexes: https://pypi.tuna.tsinghua.edu.cn/simple
+Collecting gensim
+  Downloading https://pypi.tuna.tsinghua.edu.cn/packages/d2/15/e5059a7ec03a5586fb10ceca957d7444a861a8b8a3ba913b69eafae4a79e/gensim-4.2.0-cp39-cp39-win_amd64.whl (23.9 MB)
+Collecting Cython==0.29.28
+  Downloading https://pypi.tuna.tsinghua.edu.cn/packages/9f/79/311cfbca90332ab37ef8ea08f1af3266f20a9a0e7a1d652842db832226bb/Cython-0.29.28-py2.py3-none-any.whl (983 kB)
+Collecting smart-open>=1.8.1
+  Downloading https://pypi.tuna.tsinghua.edu.cn/packages/09/db/fab79b619923e26cecc5fb460c80f71f99666fe19182d5bb600ec4d6ff10/smart_open-6.0.0-py3-none-any.whl (58 kB)
+Requirement already satisfied: scipy>=0.18.1 in c:\programdata\anaconda3\lib\site-packages (from gensim) (1.7.1)
+Requirement already satisfied: numpy>=1.17.0 in c:\programdata\anaconda3\lib\site-packages (from gensim) (1.20.3)
+Installing collected packages: smart-open, Cython, gensim
+  Attempting uninstall: Cython
+    Found existing installation: Cython 0.29.24
+    Uninstalling Cython-0.29.24:
+      Successfully uninstalled Cython-0.29.24
+Successfully installed Cython-0.29.28 gensim-4.2.0 smart-open-6.0.0
+Note: you may need to restart the kernel to use updated packages.
+pip list
+Package                            Version
+---------------------------------- --------------------
+alabaster                          0.7.12
+anaconda-client                    1.9.0
+anaconda-navigator                 2.1.1
+anaconda-project                   0.10.1
+anyio                              2.2.0
+appdirs                            1.4.4
+argh                               0.26.2
+argon2-cffi                        20.1.0
+arrow                              0.13.1
+asn1crypto                         1.4.0
+astroid                            2.6.6
+astropy                            4.3.1
+async-generator                    1.10
+atomicwrites                       1.4.0
+attrs                              21.2.0
+autopep8                           1.5.7
+Babel                              2.9.1
+backcall                           0.2.0
+backports.functools-lru-cache      1.6.4
+backports.shutil-get-terminal-size 1.0.0
+backports.tempfile                 1.0
+backports.weakref                  1.0.post1
+bcrypt                             3.2.0
+beautifulsoup4                     4.10.0
+binaryornot                        0.4.4
+bitarray                           2.3.0
+bkcharts                           0.2
+black                              19.10b0
+bleach                             4.0.0
+bokeh                              2.4.1
+boto                               2.49.0
+Bottleneck                         1.3.2
+brewer2mpl                         1.4.1
+brotlipy                           0.7.0
+cached-property                    1.5.2
+certifi                            2021.10.8
+cffi                               1.14.6
+chardet                            4.0.0
+charset-normalizer                 2.0.4
+click                              8.0.3
+cloudpickle                        2.0.0
+clyent                             1.2.2
+colorama                           0.4.4
+comtypes                           1.1.10
+conda                              4.10.3
+conda-build                        3.21.6
+conda-content-trust                0+unknown
+conda-pack                         0.6.0
+conda-package-handling             1.7.3
+conda-repo-cli                     1.0.4
+conda-token                        0.3.0
+conda-verify                       3.4.2
+contextlib2                        0.6.0.post1
+cookiecutter                       1.7.2
+cryptography                       3.4.8
+cycler                             0.10.0
+Cython                             0.29.28
+cytoolz                            0.11.0
+daal4py                            2021.3.0
+dask                               2021.10.0
+debugpy                            1.4.1
+Note: you may need to restart the kernel to use updated packages.decorator                          5.1.0
+defusedxml                         0.7.1
+diff-match-patch                   20200713
+distributed                        2021.10.0
+docutils                           0.17.1
+entrypoints                        0.3
+et-xmlfile                         1.1.0
+fastcache                          1.1.0
+filelock                           3.3.1
+flake8                             3.9.2
+Flask                              1.1.2
+fonttools                          4.25.0
+fsspec                             2021.10.1
+future                             0.18.2
+
+gensim                             4.2.0
+gevent                             21.8.0
+ggplot                             0.11.5
+glob2                              0.7
+greenlet                           1.1.1
+h5py                               3.2.1
+HeapDict                           1.0.1
+html5lib                           1.1
+idna                               3.2
+imagecodecs                        2021.8.26
+imageio                            2.9.0
+imagesize                          1.2.0
+importlib-metadata                 4.8.1
+inflection                         0.5.1
+iniconfig                          1.1.1
+intervaltree                       3.1.0
+ipykernel                          6.4.1
+ipython                            7.29.0
+ipython-genutils                   0.2.0
+ipywidgets                         7.6.5
+isort                              5.9.3
+itsdangerous                       2.0.1
+jdcal                              1.4.1
+jedi                               0.18.0
+jieba                              0.42.1
+Jinja2                             2.11.3
+jinja2-time                        0.2.0
+joblib                             1.1.0
+json5                              0.9.6
+jsonschema                         3.2.0
+jupyter                            1.0.0
+jupyter-client                     6.1.12
+jupyter-console                    6.4.0
+jupyter-core                       4.8.1
+jupyter-server                     1.4.1
+jupyterlab                         3.2.1
+jupyterlab-pygments                0.1.2
+jupyterlab-server                  2.8.2
+jupyterlab-widgets                 1.0.0
+keyring                            23.1.0
+kiwisolver                         1.3.1
+lazy-object-proxy                  1.6.0
+libarchive-c                       2.9
+llvmlite                           0.37.0
+locket                             0.2.1
+lxml                               4.6.3
+MarkupSafe                         2.0.1
+matplotlib                         3.4.3
+matplotlib-inline                  0.1.2
+mccabe                             0.6.1
+menuinst                           1.4.18
+mistune                            0.8.4
+mkl-fft                            1.3.1
+mkl-random                         1.2.2
+mkl-service                        2.4.0
+mock                               4.0.3
+more-itertools                     8.10.0
+mpmath                             1.2.1
+msgpack                            1.0.2
+multimethod                        1.8
+multipledispatch                   0.6.0
+munkres                            1.1.4
+mypy-extensions                    0.4.3
+navigator-updater                  0.2.1
+nbclassic                          0.2.6
+nbclient                           0.5.3
+nbconvert                          6.1.0
+nbformat                           5.1.3
+nest-asyncio                       1.5.1
+networkx                           2.6.3
+nltk                               3.6.5
+nose                               1.3.7
+notebook                           6.4.5
+numba                              0.54.1
+numexpr                            2.7.3
+numpy                              1.20.3
+numpydoc                           1.1.0
+olefile                            0.46
+openpyxl                           3.0.9
+packaging                          21.0
+pandas                             1.3.4
+pandocfilters                      1.4.3
+paramiko                           2.7.2
+parso                              0.8.2
+partd                              1.2.0
+path                               16.0.0
+pathlib2                           2.3.6
+pathspec                           0.7.0
+patsy                              0.5.2
+pep8                               1.7.1
+pexpect                            4.8.0
+pickleshare                        0.7.5
+Pillow                             8.4.0
+pip                                21.2.4
+pkginfo                            1.7.1
+pluggy                             0.13.1
+ply                                3.11
+poyo                               0.5.0
+prettytable                        3.2.0
+prometheus-client                  0.11.0
+prompt-toolkit                     3.0.20
+psutil                             5.8.0
+ptyprocess                         0.7.0
+py                                 1.10.0
+pycodestyle                        2.7.0
+pycosat                            0.6.3
+pycparser                          2.20
+pycurl                             7.44.1
+pydocstyle                         6.1.1
+pyecharts                          1.9.1
+pyerfa                             2.0.0
+pyflakes                           2.3.1
+Pygments                           2.10.0
+PyJWT                              2.1.0
+pylint                             2.9.6
+pyls-spyder                        0.4.0
+PyNaCl                             1.4.0
+pyodbc                             4.0.0-unsupported
+pyOpenSSL                          21.0.0
+pyparsing                          3.0.4
+pyreadline                         2.1
+pyrsistent                         0.18.0
+PySocks                            1.7.1
+pytest                             6.2.4
+python-dateutil                    2.8.2
+python-lsp-black                   1.0.0
+python-lsp-jsonrpc                 1.0.0
+python-lsp-server                  1.2.4
+python-slugify                     5.0.2
+pytz                               2021.3
+PyWavelets                         1.1.1
+pywin32                            228
+pywin32-ctypes                     0.2.0
+pywinpty                           0.5.7
+PyYAML                             6.0
+pyzmq                              19.0.2
+QDarkStyle                         3.0.2
+qstylizer                          0.1.10
+QtAwesome                          1.0.2
+qtconsole                          5.1.1
+QtPy                               1.10.0
+regex                              2021.8.3
+requests                           2.26.0
+rope                               0.19.0
+Rtree                              0.9.7
+ruamel-yaml-conda                  0.15.100
+scikit-image                       0.18.3
+scikit-learn                       0.24.2
+scikit-learn-intelex               2021.20210714.120553
+scipy                              1.7.1
+seaborn                            0.11.2
+Send2Trash                         1.8.0
+setuptools                         58.0.4
+simplegeneric                      0.8.1
+simplejson                         3.17.6
+singledispatch                     3.7.0
+sip                                4.19.13
+six                                1.16.0
+smart-open                         6.0.0
+sniffio                            1.2.0
+snowballstemmer                    2.1.0
+sortedcollections                  2.1.0
+sortedcontainers                   2.4.0
+soupsieve                          2.2.1
+Sphinx                             4.2.0
+sphinxcontrib-applehelp            1.0.2
+sphinxcontrib-devhelp              1.0.2
+sphinxcontrib-htmlhelp             2.0.0
+sphinxcontrib-jsmath               1.0.1
+sphinxcontrib-qthelp               1.0.3
+sphinxcontrib-serializinghtml      1.1.5
+sphinxcontrib-websupport           1.2.4
+spyder                             5.1.5
+spyder-kernels                     2.1.3
+SQLAlchemy                         1.4.22
+statsmodels                        0.12.2
+sympy                              1.9
+tables                             3.6.1
+tangled-up-in-unicode              0.2.0
+TBB                                0.2
+tblib                              1.7.0
+terminado                          0.9.4
+testpath                           0.5.0
+text-unidecode                     1.3
+textdistance                       4.2.1
+threadpoolctl                      2.2.0
+three-merge                        0.1.1
+tifffile                           2021.7.2
+tinycss                            0.4
+toml                               0.10.2
+toolz                              0.11.1
+tornado                            6.1
+tqdm                               4.62.3
+traitlets                          5.1.0
+typed-ast                          1.4.3
+typing-extensions                  3.10.0.2
+ujson                              4.0.2
+unicodecsv                         0.14.1
+Unidecode                          1.2.0
+urllib3                            1.26.7
+visions                            0.7.4
+watchdog                           2.1.3
+wcwidth                            0.2.5
+webencodings                       0.5.1
+Werkzeug                           2.0.2
+wget                               3.2
+wheel                              0.37.0
+whichcraft                         0.6.1
+widgetsnbextension                 3.5.1
+win-inet-pton                      1.1.0
+win-unicode-console                0.5
+wincertstore                       0.2
+wordcloud                          1.8.1
+wrapt                              1.12.1
+xlrd                               2.0.1
+XlsxWriter                         3.0.1
+xlwings                            0.24.9
+xlwt                               1.3.0
+xmltodict                          0.12.0
+yapf                               0.31.0
+zict                               2.0.0
+zipp                               3.6.0
+zope.event                         4.5.0
+zope.interface                     5.4.0
+from gensim.models import Word2Vec
+from sklearn.cluster import KMeans
+import warnings
+warnings.filterwarnings('ignore')
+
+words = []
+
+for i in news:
+    words.append(word_cut(i))
+model = Word2Vec(words, sg=0, vector_size=300, window=5, min_count=5)  # 词向量进行训练
+keys = model.wv.key_to_index.keys()  # 获取词汇列表
+wordvector = []
+for key in keys:
+    wordvector.append(model.wv[key])  # 对词汇列表里的所有的词向量进行整合
+
+distortions = []
+for i in range(1, 40):
+    word_kmeans = KMeans(n_clusters=i,
+                         init='k-means++',
+                         n_init=10,
+                         max_iter=300,
+                         random_state=0)  # 分别聚成1-40类
+    word_kmeans.fit(wordvector)
+    distortions.append(word_kmeans.inertia_)  # 算出样本距离最近的聚类中心的距离总和
+
+plt.plot(range(1, 40), distortions, marker='o')  # 绘图
+plt.xlabel('Number of clusters')
+plt.ylabel('Distortion')
+Text(0, 0.5, 'Distortion')
+
+word_kmeans = KMeans(n_clusters=10)  # 聚成10类
+word_kmeans.fit(wordvector)
+
+labels = word_kmeans.labels_
+
+for num in range(0, 10):
+    text = []
+    for i in range(len(keys)):
+        if labels[i] == num:
+            text.append(list(keys)[i])  # 分别获得10类的聚类结果
+    print(text)
+['月', '美国', '北京', '感染', '患者', '湖北', '人', '国家', '为', '出现', '至', '人数', '名', '起', '连续', '宣布', '对', '万', '延长', '或', '个', '被', '发布', '天', '公布', '工作', '所有', '影响', '新', '又', '开放', '专家', '启动', '一', '经济', '有', '聚集', '进行', '应对', '是', '等', '期间', '国际', '多', '风险', '地区', '后', '中', '医疗队', '响应', '驻', '再', '称', '了', '限制', '进入', '复工', '部分', '可', '向', '丨', '暂停', '民众', '令', '开学', '紧急', '仍', '返校', '旅客']
+['湖南', '贵州', '河北', '澳大利亚', '山西', '青海', '荷兰', '广东省', '天津市', '黑龙江省', '墨西哥', '吉林省', '比利时', '云南省', '秘鲁', '澳门', '摩洛哥', '省区市', '贵州省', '安徽省', '南非', '河南省', '发布会', '埃及', '接受', '治疗', '驰援', '超例', '医务人员', '刚果', '哈萨克斯坦', '英国首相', '共', '内蒙古自治区', '匈牙利', '全区', '蔓延', '医用', '养老院', '关联', '护士', '俄', '绥芬河', '集体', '工作者', '实验室', '家', '金银', '潭', '下周', '边境', '首个', '低', '趋缓', '研发', '员工', '多名', '业务', '除', '张文宏', '症状', '经验', '公司', '非', '客运', '病人', '吉林市', '受新冠', '升级', '救治', '今天', '月底', '常态', '调查', '快速', '放松', '封闭', '但', '小汤山', '外', '发展', '黄冈', '下', '门诊', '世界卫生组织', '状态', '主席', '月份', '中方', '需要', '回家', '两例', '失业', '破', '宵禁', '山', '降', '乘客', '出行', '行动', '预约', '群体', '轨迹', '做', '重要', '重点', '逼近', '零', '逾', '联合国', '启程', '军队', '级别', '有序', '一名', '失业率', '监狱', '采样', '批准', '战疫', '生活', '确定', '万份', '样本', '生产', '第二阶段', '诊疗', '快递', '公共', '市民', '不得', '复苏', '部长', '政策', '用', '省', '撤离', '停止', '形势', '总', '一季度', '临床', '恶化', '总数', '民航局', '规定', '至人', '测试', '下降', '包机', '总干事', '病毒感染', '阶段', '更', '采取', '购买', '共同', '药物', '返京', '师生', '密接', '中国政府', '申请', '今起', '前往', '都', '流行', '提高', '方式', '航线', '奥组委', '万人次', '安排', '尚未', '力度', '市', '保障', '收治', '个人', '食品', '同比', '市长', '严格', '采购', '床位', '抗议', '只', '暂', '哈尔滨', '央视', '期', '外籍', '志哀', '推动', '今年', '无法', '旅游业', '野生动物', '补助', '线上', '落实', '两天', '名新冠', '神山', '隐瞒', '警告', '裁员', '再度', '世界', '任务', '排除', '诊断', '项目', '外长', '缓解', '举措', '高', '收到', '主要', '因新冠', '海鲜', '日前', '处于', '副', '不是', '吨', '召开', '迪拜', '大区', '万个', '撤侨', '当地', '中心', '增幅', '试剂盒', '一年', '每天', '呼吸机', '提升', '秘书', '餐厅', '封城', '价格', '分享', '自', '同时', '鄂', '避免', '官方', '城市', '二级', '行业', '高三', '以下', '等国', '扩散', '下调', '引', '两', '流感', '监护', '团队', '援鄂', '创新', '社交', '可以', '坚决', '万名', '航空', '半数', '事态', '告急', '其他', '资金', '降至例', '使用', '严防', '证据', '爱心', '系', '籍', '不明', '运输', '佛罗里达州', '吗', '认为', '启用', '此前', '乘', '过去', '表明', '代表', '免疫', '即将', '建设', '说', '首相', '多家', '防护', '男子', '多项', '捐款', '氯喹', '羟', '任何', '准备', '保护', '执行', '领导', '大臣', '全力', '机制', '若', '正常', '沪', '网络', '也', '回', '首日', '宣言', '急需', '迎接', '让', '加快', '逝者', '解禁', '禁足', '规模', '追加', '发出', '毕业生', '转机', '体温', '办事处', '酒吧', '紧张', '包括', '主流', '环境', '中考', '发']
+['新型', '冠状病毒', '情况', '最新', '全国', '英国', '时', '巴西', '年月日', '日时', '泰国', '新加坡', '首次', '卫健委', '性', '发现', '均', '北京市', '专家组', '从', '达', '清零', '总统', '可能', '于', '医护人员', '最大', '增加', '好消息', '持续', '号', '欧洲', '健康', '病毒检测', '年', '非洲', '取消', '实施', '全部', '目前', '前', '今日', '受', '重症', '者', '疫苗', '首都', '国', '传播', '政府', '计划', '航班', '总理', '东京', '万人', '特朗普', '要求', '一级', '公主', '居家', '近', '活动', '上升', '举行', '最', '提供', '其中', '关闭', '卫生', '国内', '抗体', '重启', '新闻', '企业', '因', '委员会', '完成', '合作', '阳性', '开始', '公民', '入境', '全面', '内', '佩戴', '暴发', '支持', '美', '捐赠', '及', '封锁', '牺牲', '市场', '继续', '研究', '发生', '抗击', '应', '来', '应急', '大', '戴', '解封', '要', '五一', '管理', '发热', '呼吁', '海外', '到', '没有', '假期', '悼念', '大使馆', '奥运会', '社区', '机场', '扩大', '显示', '实行', '亿', '约翰逊', '学校', '景区']
+['新冠', '例新冠', '日', '出院', '无', '输入', '境外', '治愈', '通报', '报告', '本地']
+['阿根廷', '印尼', '沙特', '福建省', '四川省', '瑞士', '巴基斯坦', '葡萄牙', '江西省', '山西省', '卫健委日', '波兰', '智利', '新西兰', '希腊', '辽宁省', '肯尼亚', '青海省', '黎巴嫩', '哥伦比亚', '河北省', '斯洛伐克', '塞尔维亚', '巴林', '乌克兰', '共计', '浙江省', '以色列', '伊拉克', '孟加拉国', '湖南省', '贫民窟', '塞内加尔', '白俄罗斯', '详情', '赞比亚', '捷克', '例均', '破万', '西藏自治区', '格鲁吉亚', '科威特', '毛里求斯', '治愈率', '火神', '境内', '越南', '奥地利', '缅甸', '斯里兰卡', '乌兹别克斯坦', '卢森堡', '至时', '江苏省', '大部分', '纽约市', '卫健委月', '阿塞拜疆', '台湾', '欧盟', '突尼斯', '压力', '现', '交易', '厄瓜多尔', '金', '考虑', '证明', '一周', '情况通报', '阿曼', '婴儿', '最小', '辽宁大连', '上调', '白宫', '利比亚', '雷', '连降', '罚款', '院士', '保加利亚', '返回', '文莱', '卡塔尔', '喀麦隆', '默哀', '传染病', '运营', '阿尔巴尼亚', '派', '针对', '很', '教育部', '沈阳', '千例', '岗位', '加大', '布', '牡丹江', '危重', '给', '所', '区域', '基本', '合肥', '考试', '援', '鲍里斯', '禁令', '亿只', '临床试验', '举办', '统计', '得到', '人民', '会议', '使馆', '生命', '埃塞俄比亚', '超人', '化', '亚美尼亚', '通告', '有关', '倍', '加剧', '好', '严峻', '住院', '省份', '一个月', '工作人员', '下跌', '展开', '春节假期', '筛查', '发言人', '迪士尼', '总领馆', '复航', '流动', '返程', '家中', '海滩', '多地', '量', '急', '也门', '吴尊友', '上海市', '万次', '指导', '三级', '保持', '舒兰市', '停运', '停课', '进出', '复学', '移动', '作用', '水平', '检疫', '津巴布韦', '型', '全员', '三个', '数量', '入院', '恢复正常', '死于', '记者', '滞留', '立陶宛', '安道尔', '行程', '加纳', '洛杉矶', '减少', '之下', '重开', '黄石', '危机', '北美', '一例', '接近', '财政', '深圳', '普京', '万多', '例例', '第二批', '预测', '首尔', '乌拉圭', '现在', '吉布提', '史', '圭亚那', '病情', '尼日利亚', '轻症', '等级', '错峰', '近万人', '夜店', '叙利亚', '各', '销售', '人士', '胜利', '警惕', '发改委', '多国', '柳叶刀', '武汉协和医院', '阿尔及利亚', '营业', '严禁', '供应链', '实现', '上班', '南京', '出征', '凯旋', '订正', '布基纳法索', '资助', '第一批', '蒙古国', '至例', '增例', '坦桑尼亚', '老挝', '塞浦路斯', '有名', '襄阳', '构成', '堂食', '同一', '陆续', '日本政府', '明确', '补贴', '工资', '办理', '而', '英雄', '过万', '医务', '引发', '苏丹', '网友', '仪式', '两万', '不足', '国际航班', '传染', '亚洲', '接收', '开', '比赛', '吉尔吉斯斯坦', '挑战', '数超', '序列', '名单', '近万', '外卖', '比', '座', '正在', '案例', '多数', '纳入', '明显', '圈', '经济衰退', '疾控', '削减', '具备', '级', '主任', '出席', '冠', '有效', '两个', '酒店', '接待', '地方', '关键', '心理', '大厅', '疾病', '须', '帮助', '指南', '经', '这些', '老人', '如何', '欧元', '视频', '省市', '民航', '不断', '联合', '变化', '工人', '系统', '幼儿园', '参与', '强调', '分批', '赤道几内亚', '供应', '复阳', '近例', '大会', '州长', '次', '封闭式', '啦', '航空公司', '马里', '投资', '就诊', '波', '份', '尚', '条', '建', '蛋白质', '全', '回升', '团结', '全体', '参加', '变', '看', '其', '公务员', '防止', '处以', '出租车', '多州', '进京']
+['加拿大', '截至', '菲律宾', '重庆市', '土耳其', '山东省', '马来西亚', '湖北省', '突破', '小时', '直播', '阴性', '岁', '第例', '来自', '紧急状态', '观察', '西藏', '年月日时', '援助', '阿联酋', '发地', '机构', '纽约州', '解除', '相关', '医学观察', '最高', '严重', '达到', '管控', '抵达', '钻石', '钟南山', '强制', '首批', '时间', '再次', '疑似', '以外', '同胞', '康复', '确认', '含', '医生', '外交部', '支援', '重新', '调整', '兵团', '共有', '逝世', '儿童', '结束', '以来', '服务', '复课', '呈', '逐步', '已经', '成', '推迟', '数据', '赴', '集中', '会', '已有', '延期', '高风险', '一个', '能力', '进一步', '日起', '社会', '复产', '全省', '卫生部长', '至少', '开展', '反弹', '方舱', '邮轮', '面临', '数', '安全', '建议', '一天', '疾控中心', '结果', '增长', '控制', '加强', '信息', '允许', '去世', '约', '亿元', '卫生部', '广州', '并', '回国', '烈士', '禁止', '提醒', '曾', '加州', '密切接触', '出台', '回应', '放宽', '高考', '需', '地', '以上', '推出', '高校', '留学生', '痊愈', '武汉市', '口岸', '免费', '正式', '医护', '事件', '官员', '旅游', '学生', '正', '国务院', '发放', '预计', '小区', '问题', '各地', '各国', '感谢', '冲击', '范围', '人群', '队员', '两周', '场所', '最后', '上', '一线', '加速', '临时', '运抵', '旅行', '关于', '我', '通过', '居民', '一律', '每日', '以', '积极', '公共卫生', '铁路', '中小学', '莫斯科', '媒体', '消费', '我国', '不会', '排查', '导致', '接触', '纽约', '蔬菜', '占', '州', '未来', '中央', '第二', '决定', '必须', '突发', '成为', '大规模', '高峰', '是否', '注意', '家庭', '深切', '下半旗', '表示', '游客', '通知', '未', '还', '医疗机构', '助力', '就', '救助', '外出', '就业', '由', '年级', '大幅', '部门', '做好', '关注', '试剂', '联防', '联控', '考生', '距离']
+['万例', '全球', '世卫', '组织', '超过', '超']
+['疫情', '的', '将', '中国', '武汉', '病毒', '检测', '和', '在', '防控', '抗疫', '医院', '口罩', '措施', '隔离', '核酸', '已', '人员', '医疗', '恢复', '不', '物资', '与', '防疫']
+['死亡', '上海', '首例', '天津', '日本', '增至', '意大利', '韩国', '达例', '感染者', '西班牙', '升至', '印度', '广东', '德国', '辽宁', '黑龙江', '山东', '重庆', '广西', '无症状', '香港', '俄罗斯', '四川', '陕西', '法国', '超万', '伊朗', '江苏', '福建', '云南', '疑似病例', '安徽', '浙江', '甘肃', '单日', '内蒙古', '河南', '吉林', '新疆', '海南', '江西', '宁夏', '天无', '昨日', '有例', '本土', '例为', '现有']
+['例', '确诊', '新增', '病例', '肺炎', '累计']
+sum_GDP = ['国内生产总值', '第一产业增加值', '第二产业增加值', '第三产业增加值']
+industry_GDP = ['农林牧渔业增加值', '工业增加值', '制造业增加值', '建筑业增加值']
+industry2_GDP = ['批发和零售业增加值', '交通运输、仓储和邮政业增加值', '住宿和餐饮业增加值', '金融业增加值']
+industry3_GDP = ['房地产业增加值', '信息传输、软件和信息技术服务业增加值',
+                 '租赁和商务服务业增加值', '其他行业增加值']  # 对不同行业分四类来展现
+
+fig = plt.figure()
+fig, axes = plt.subplots(2, 2, figsize=(21, 15))  # 分别用四个子图来展现数据变化情况
+
+axes[0][0].plot(data_economy[sum_GDP])
+axes[0][0].legend(sum_GDP, prop=myfont)
+axes[0][1].plot(data_economy[industry_GDP])
+axes[0][1].legend(industry_GDP, prop=myfont)
+axes[1][0].plot(data_economy[industry2_GDP])
+axes[1][0].legend(industry2_GDP, prop=myfont)
+axes[1][1].plot(data_economy[industry3_GDP])
+axes[1][1].legend(industry3_GDP, prop=myfont)
+
+plt.title('分行业GDP变化图', fontproperties=myfont)
+Text(0.5, 1.0, '分行业GDP变化图')
+<Figure size 432x288 with 0 Axes>
+
+from statsmodels.graphics.tsaplots import plot_acf
+from pandas.plotting import autocorrelation_plot
+from statsmodels.sandbox.stats.diagnostic import acorr_ljungbox
+
+
+GDP_type = ['国内生产总值', '第一产业增加值', '第二产业增加值', '第三产业增加值', 
+            '农林牧渔业增加值', '工业增加值', '制造业增加值', '建筑业增加值', '批发和零售业增加值',
+            '交通运输、仓储和邮政业增加值', '住宿和餐饮业增加值', '金融业增加值', 
+            '房地产业增加值', '信息传输、软件和信息技术服务业增加值', '租赁和商务服务业增加值', '其他行业增加值']
+
+for i in GDP_type:
+    each_data = data_economy[i][:-2]
+    plt.figure(figsize=(30, 6))
+    ax1 = plt.subplot(1, 3, 1)
+    ax2 = plt.subplot(1, 3, 2)
+    ax3 = plt.subplot(1, 3, 3)
+    LB2, P2 = acorr_ljungbox(each_data)  # 进行纯随机性检验
+    plot_acf(each_data, ax=ax1)
+    autocorrelation_plot(each_data, ax=ax2)  # 进行平稳性检验
+    ax3.plot(P2)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+from statsmodels.tsa.arima_model import ARMA
+from statsmodels.tsa.stattools import arma_order_select_ic
+
+warnings.filterwarnings('ignore')
+data_arma = pd.DataFrame(data_economy['国内生产总值'][:-2])  # 选取疫情期前的16个季度进行建模
+a, b = arma_order_select_ic(data_arma, ic='hqic')['hqic_min_order']
+arma = ARMA(data_arma, order=(a, b)).fit()  # 使用ARMA建模
+rate1 = list(data_economy['国内生产总值'][-2] /
+             arma.forecast(steps=1)[0])  # 获得疫情期当季度的预测值
+rate1  # 实际值与预测值的比率
+[0.8273539514507257]
+from pyecharts import options as opts
+from pyecharts.charts import Liquid
+
+c = (
+    Liquid()
+    .add("实际值/预测值", rate1, is_outline_show=False)
+    .set_global_opts(title_opts=opts.TitleOpts(title="第一季度国民生产总值实际值与预测值比例", 
+                                               pos_left="center"))
+)
+c.render_notebook()
+warnings.filterwarnings('ignore')
+data_arma = pd.DataFrame(data_economy['工业增加值'][:-2])
+a, b = arma_order_select_ic(data_arma, ic='hqic')['hqic_min_order']
+arma = ARMA(data_arma, order=(a, b)).fit()
+rate2 = list(data_economy['工业增加值'][-2]/arma.forecast(steps=1)[0])
+c = (
+    Liquid()
+    .add("实际值/预测值", rate2, is_outline_show=False)
+    .set_global_opts(title_opts=opts.TitleOpts(title="工业增加值比例", pos_left="center"))
+)
+c.render_notebook()
+warnings.filterwarnings('ignore')
+data_arma = pd.DataFrame(data_economy['制造业增加值'][:-2])
+a, b = arma_order_select_ic(data_arma, ic='hqic')['hqic_min_order']
+arma = ARMA(data_arma, order=(a, b)).fit()
+rate3 = list(data_economy['制造业增加值'][-2]/arma.forecast(steps=1)[0])
+c = (
+    Liquid()
+    .add("实际值/预测值", rate3, is_outline_show=False)
+    .set_global_opts(title_opts=opts.TitleOpts(title="制造业增加值", pos_left="center"))
+)
+c.render_notebook()
+data_arma = pd.DataFrame(data_economy['批发和零售业增加值'][:-2])
+a, b = arma_order_select_ic(data_arma, ic='hqic')['hqic_min_order']
+arma = ARMA(data_arma, order=(a, b)).fit()
+rate4 = list(data_economy['批发和零售业增加值'][-2]/arma.forecast(steps=1)[0])
+c = (
+    Liquid()
+    .add("实际值/预测值", rate4, is_outline_show=False)
+    .set_global_opts(title_opts=opts.TitleOpts(title="批发和零售业增加值", pos_left="center"))
+)
+c.render_notebook()
+data_arma = pd.DataFrame(data_economy['金融业增加值'][:-2])
+a, b = arma_order_select_ic(data_arma, ic='hqic')['hqic_min_order']
+arma = ARMA(data_arma, order=(a, b)).fit()
+rate = list(data_economy['金融业增加值'][-2]/arma.forecast(steps=1)[0])
+c = (
+    Liquid()
+    .add("实际值/预测值", rate, is_outline_show=False)
+    .set_global_opts(title_opts=opts.TitleOpts(title="金融业增加值", pos_left="center"))
+)
+c.render_notebook()
+data_arma = pd.DataFrame(data_economy['信息传输、软件和信息技术服务业增加值'][:-2])
+a, b = arma_order_select_ic(data_arma, ic='hqic')['hqic_min_order']
+arma = ARMA(data_arma, order=(a, b)).fit()
+rate = list(data_economy['信息传输、软件和信息技术服务业增加值'][-2]/arma.forecast(steps=1)[0])
+c = (
+    Liquid()
+    .add("实际值/预测值", rate, is_outline_show=False)
+    .set_global_opts(title_opts=opts.TitleOpts(title="信息传输、软件和信息技术服务业增加值", 
+                                               pos_left="center"))
+)
+c.render_notebook()
+ 
